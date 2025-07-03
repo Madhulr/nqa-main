@@ -1,0 +1,49 @@
+CREATE DATABASE student_enquiry_db
+CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
+------------------------------------------------------------
+CREATE USER 'Madhu'@'localhost' IDENTIFIED BY 'Admin@123';
+GRANT ALL PRIVILEGES ON student_enquiry_db.* TO 'Madhu'@'localhost';
+FLUSH PRIVILEGES;
+------------------------------------------------------------
+Madhu    Admin@123
+db=== "nqa_user , your_password"
+django admin === "admin , adminl"
+Consider the backend and see the Page not found (404)
+Request Method:	GET
+Request URL:	http://127.0.0.1:8000/
+Using the URLconf defined in student_enquiry.urls, Django tried these URL patterns, in this order:
+
+admin/
+api/
+token/ [name='token_obtain_pair']
+token/refresh/ [name='token_refresh']
+token/verify/ [name='token_verify']
+swagger/ [name='schema-swagger-ui']
+redoc/ [name='schema-redoc']
+The empty path didn't match any of these.
+
+You're seeing this error because you have DEBUG = True in your Django settings file. Change that to False, and Django will display a standard 404 page.  
+  See what it has and i now need make backend for Frontend's (It  has many pages first 3 for counselors and next 2 are Account sections and next 3 are of HR 
+  section where Last interview page is still not developed so lets leave and 
+
+------------------------------------------------------
+i want counsellors@gmail.com and password like counsellors for  counsellors as login credentials which are fixed and  make them access after login only the Enquiry Form page , Enquiry List page and Demo List pages .
+Then for accounts@gmail.com and password as accounts as login credentials which are fixed and  make them access after login only the Demo_List page , Class List page .
+For hr@gmail.com with password hr@123 as login credentials which are fixed and  make them access after login only the class_List page , Placement List page , Interview List  . 
+And admin@gmail.com and password like admin for  Admin as login credentials which are fixed and  make them access all the Enquiry Form page , Enquiry List page and Demo List page ,Demo_List page , 
+Class List page ,  class_List page , Placement List page , Interview List pages  .
+------------------------------------------------------
+I want a single table and different api's for respective pages and lets fix the data flow between them and consider the first Enquiryform data entered after
+ submitting the data should come to the second page's field of what it has all the sections and keep remaning fields as null and can be Updatable with clicking 
+ on Edit button and if the user clicks on Move button it will repeat the same like adds the previous student details table and 
+
+-------------------------------------
+. Backend
+Ensure your Enquiry model has all fields needed for all steps, with null=True, blank=True for fields not required in the first step.
+Use a ModelViewSet for /api/enquiries/ with GET, POST, PATCH, DELETE.
+Add a status field to track progress (e.g., 'new', 'details', 'moved', etc.).
+2. Frontend
+Page 1: On submit, POST and redirect to Page 2 with the new ID.
+Page 2: On mount, GET by ID, pre-fill, PATCH on submit, "Move" button triggers PATCH and redirect.
+Page 3: Same as Page 2.
