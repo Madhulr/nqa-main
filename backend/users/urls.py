@@ -1,18 +1,20 @@
 from django.urls import path
+from rest_framework.routers import DefaultRouter
 from .views import (
-    LoginView, CreateUserView, EnquiryListView,
+    LoginView, CreateUserView, EnquiryViewSet,
     StudentEnquiryListCreate, StudentEnquiryDetailView,
     DemoListListCreate, DemoListDetailView,
     CourseListView, BatchTimingListView,
     AdminOnlyView, CounsellorOnlyView, AccountsOnlyView, HROnlyView, SampleView
 )
 
+router = DefaultRouter()
+router.register(r'enquiries', EnquiryViewSet, basename='enquiry')
+
 urlpatterns = [
     path('', SampleView.as_view(), name='api-root'),  # root returns accessible message
     path('login/', LoginView.as_view(), name='login'),
     path('create_user/', CreateUserView.as_view(), name='create_user'),
-    path('enquiries/', EnquiryListView.as_view(), name='enquiry-list'),
-    # path('enquiries/create/', EnquiryCreateView.as_view(), name='enquiry-create'),
     path('student_enquiries/', StudentEnquiryListCreate.as_view(), name='student-enquiry-list-create'),
     path('student_enquiries/<int:pk>/', StudentEnquiryDetailView.as_view(), name='student-enquiry-detail'),
     path('demo_lists/', DemoListListCreate.as_view(), name='demo-list-list-create'),
@@ -25,3 +27,5 @@ urlpatterns = [
     path('accounts-only/', AccountsOnlyView.as_view(), name='accounts-only'),
     path('hr-only/', HROnlyView.as_view(), name='hr-only'),
 ]
+
+urlpatterns += router.urls
