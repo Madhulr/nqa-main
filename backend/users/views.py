@@ -19,7 +19,8 @@ from .models import (
 from .serializers import (
     EnquirySerializer, StudentEnquirySerializer,
     EnquiryListSerializer, DemoListSerializer,
-    CourseSerializer, BatchTimingSerializer
+    CourseSerializer, BatchTimingSerializer,
+    MinimalEnquirySerializer
 )
 from users.permissions import RoleBasedPermission
 
@@ -137,9 +138,13 @@ class CreateUserView(APIView):
 # -------------------- Enquiry APIs --------------------
 
 class EnquiryListView(generics.ListCreateAPIView):
-    serializer_class = EnquirySerializer
     permission_classes = [IsAuthenticated, RoleBasedPermission]
     required_roles = ['admin', 'counsellor', 'accounts', 'hr']
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return MinimalEnquirySerializer
+        return EnquirySerializer
 
     def get_queryset(self):
         user_role = AccessControl.objects.get(user=self.request.user).role
@@ -152,13 +157,20 @@ class EnquiryListView(generics.ListCreateAPIView):
         return Enquiry.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        enquiry = serializer.save(user=self.request.user)
+        EnquiryList.objects.create(
+            student_enquiry=None,  # Adjust this if you have a relation
+            subject_module=enquiry.module or '',
+            training_mode=enquiry.trainingTime or '',
+            training_timing=enquiry.timing or '',
+            start_time=enquiry.startTime or '',
+        )
 
 
 # -------------------- StudentEnquiry APIs --------------------
 
 class StudentEnquiryListCreate(APIView):
-    permission_classes = [IsAuthenticated , RoleBasedPermission]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         data = StudentEnquiry.objects.all()
@@ -173,7 +185,7 @@ class StudentEnquiryListCreate(APIView):
 
 
 class StudentEnquiryDetailView(APIView):
-    permission_classes = [IsAuthenticated , RoleBasedPermission]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, pk):
         obj = get_object_or_404(StudentEnquiry, pk=pk)

@@ -41,6 +41,7 @@ class StudentEnquiry(models.Model):
     phone_number = models.CharField(max_length=10, validators=[validate_phone_number])
     email = models.EmailField(validators=[validate_gmail_email])
     current_location = models.CharField(max_length=255)
+    current_address = models.CharField(max_length=255, blank=True, null=True)
 
     COURSE_CHOICES = [
         ("Professional Starter Testing", "Professional Starter Testing"),
@@ -135,20 +136,17 @@ class StudentEnquiry(models.Model):
 
 # -------------------- EnquiryList --------------------
 class EnquiryList(models.Model):
-    student_enquiry = models.ForeignKey(StudentEnquiry, related_name='enquiry_list', on_delete=models.CASCADE)
+    student_enquiry = models.ForeignKey(StudentEnquiry, related_name='enquiry_list', on_delete=models.CASCADE, null=True, blank=True)
     subject_module = models.CharField(max_length=255)
     training_mode = models.CharField(max_length=20)
     training_timing = models.CharField(max_length=50)
     start_time = models.CharField(max_length=50)
-
     calling1 = models.CharField(max_length=255, blank=True, null=True)
     calling2 = models.CharField(max_length=255, blank=True, null=True)
     calling3 = models.CharField(max_length=255, blank=True, null=True)
     calling4 = models.CharField(max_length=255, blank=True, null=True)
     calling5 = models.CharField(max_length=255, blank=True, null=True)
-
     move_to_demo = models.BooleanField(default=False)
-
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -156,7 +154,7 @@ class EnquiryList(models.Model):
         verbose_name_plural = "Enquiry Lists"
 
     def __str__(self):
-        return f"Enquiry List for {self.student_enquiry.name}"
+        return f"Enquiry List for {self.student_enquiry.name if self.student_enquiry else 'N/A'}"
 
 
 # -------------------- DemoList --------------------

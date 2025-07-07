@@ -62,56 +62,38 @@ class DemoListSerializer(serializers.ModelSerializer):
 
 # -------------------- Enquiry Serializer --------------------
 class EnquirySerializer(serializers.ModelSerializer):
-    course = CourseSerializer(read_only=True)
-    # course_id = serializers.PrimaryKeyRelatedField(queryset=Course.objects.all(), source='course', write_only=True)
-    batch_timing = BatchTimingSerializer(read_only=True)
-    # batch_timing_id = serializers.PrimaryKeyRelatedField(queryset=BatchTiming.objects.all(), source='batch_timing', write_only=True)
+    class Meta:
+        model = Enquiry
+        fields = [
+            'id', 'user', 'name', 'email', 'phone', 'current_location',
+            'module', 'timing', 'trainingTime', 'startTime', 'profession',
+            'qualification', 'experience', 'referral', 'consent',
+            'calling1', 'calling2', 'calling3', 'calling4', 'calling5',
+            'previous_interaction', 'status', 'batch_code', 'batch_subject',
+            'demo_class_status', 'payment_status', 'move_to_demo', 'admin_notes',
+            'placement_status', 'placement_notes', 'interview_status', 'interview_notes',
+            'created_at', 'updated_at'
+        ]
+        read_only_fields = ['user', 'created_at', 'updated_at']
+
+
+class MinimalEnquirySerializer(serializers.ModelSerializer):
+    fullName = serializers.CharField(source='name')
+    location = serializers.CharField(source='current_location')
+    trainingMode = serializers.CharField(source='timing')
+    trainingTimings = serializers.CharField(source='trainingTime')
+    previousInteraction = serializers.CharField(source='previous_interaction')
 
     class Meta:
         model = Enquiry
         fields = [
-            'id', 'user', 'name', 'email', 'phone', 'address', 'current_location',
-            'course', 'training_mode', 'batch_timing',
-            'reason_for_slot', 'employment_status', 'highest_qualification', 'experience_years',
-            'source_of_info', 'consent_to_contact', 'message', 'status', 'payment_status', 'follow_up_note', 'created_at'
+            'id', 'fullName', 'phone', 'email', 'location', 'module',
+            'trainingMode', 'trainingTimings', 'startTime',
+            'calling1', 'calling2', 'calling3', 'calling4', 'calling5', 'previousInteraction'
         ]
-        read_only_fields = ['user', 'created_at']
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# , 'address'
 
 # # yourapp/serializers.py
 # from rest_framework import serializers
