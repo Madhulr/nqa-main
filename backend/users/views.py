@@ -167,6 +167,12 @@ class EnquiryListView(generics.ListCreateAPIView):
         )
 
 
+class EnquiryDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Enquiry.objects.all()
+    serializer_class = EnquirySerializer
+    permission_classes = [IsAuthenticated, RoleBasedPermission]
+
+
 # -------------------- StudentEnquiry APIs --------------------
 
 class StudentEnquiryListCreate(APIView):

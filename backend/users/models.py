@@ -232,7 +232,7 @@ class Enquiry(models.Model):
     calling3 = models.CharField(max_length=50, blank=True, null=True)
     calling4 = models.CharField(max_length=50, blank=True, null=True)
     calling5 = models.CharField(max_length=50, blank=True, null=True)
-    previous_interaction = models.TextField(blank=True, null=True)
+    previous_interaction = models.CharField(max_length=255, blank=True, null=True)
     status = models.CharField(max_length=50, default='new')
 
     # Demo/Batch/Accounts

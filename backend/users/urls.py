@@ -1,7 +1,7 @@
 from django.urls import path
 from rest_framework.routers import DefaultRouter
 from .views import (
-    LoginView, CreateUserView, EnquiryListView,
+    LoginView, CreateUserView, EnquiryListView, EnquiryDetailView,
     StudentEnquiryListCreate, StudentEnquiryDetailView,
     DemoListListCreate, DemoListDetailView,
     CourseListView, BatchTimingListView,
@@ -13,6 +13,7 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('create_user/', CreateUserView.as_view(), name='create_user'),
     path('enquiries/', EnquiryListView.as_view(), name='enquiry-list'),
+    path('enquiries/<int:pk>/', EnquiryDetailView.as_view(), name='enquiry-detail'),
     path('student_enquiries/', StudentEnquiryListCreate.as_view(), name='student-enquiry-list-create'),
     path('student_enquiries/<int:pk>/', StudentEnquiryDetailView.as_view(), name='student-enquiry-detail'),
     path('demo_lists/', DemoListListCreate.as_view(), name='demo-list-list-create'),
