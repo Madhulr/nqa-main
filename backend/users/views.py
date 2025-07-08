@@ -11,6 +11,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
+from .serializers import EnquirySerializer
 
 from .models import (
     Enquiry, StudentEnquiry, EnquiryList, DemoList,
@@ -142,11 +143,7 @@ class CreateUserView(APIView):
 class EnquiryListView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated, RoleBasedPermission]
     required_roles = ['admin', 'counsellor', 'accounts', 'hr']
-
-    def get_serializer_class(self):
-        if self.request.method == 'GET':
-            return MinimalEnquirySerializer
-        return EnquirySerializer
+    serializer_class = EnquirySerializer  #  Always full data
 
     def get_queryset(self):
         user_role = AccessControl.objects.get(user=self.request.user).role
@@ -161,12 +158,13 @@ class EnquiryListView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         enquiry = serializer.save(user=self.request.user)
         EnquiryList.objects.create(
-            student_enquiry=None,  # Adjust this if you have a relation
+            student_enquiry=None,
             subject_module=enquiry.module or '',
             training_mode=enquiry.trainingTime or '',
             training_timing=enquiry.timing or '',
             start_time=enquiry.startTime or '',
         )
+
 
 
 class EnquiryDetailView(generics.RetrieveUpdateDestroyAPIView):

@@ -242,6 +242,8 @@ class Enquiry(models.Model):
     payment_status = models.BooleanField(default=False)
     move_to_demo = models.BooleanField(default=False)
     admin_notes = models.TextField(blank=True, null=True)
+    move_to_acc = models.BooleanField(default=False)
+    
 
     # HR/Placement/Interview
     placement_status = models.CharField(max_length=50, blank=True, null=True)

@@ -41,7 +41,7 @@ class EnquiryListSerializer(serializers.ModelSerializer):
             'id', 'student_enquiry', 'student_enquiry_id',
             'subject_module', 'training_mode', 'training_timing', 'start_time',
             'calling1', 'calling2', 'calling3', 'calling4', 'calling5',
-            'move_to_demo', 'created_at', 'updated_at'
+            'move_to_demo', 'created_at', 'updated_at' , 
         ]
 
 
@@ -63,17 +63,18 @@ class DemoListSerializer(serializers.ModelSerializer):
 # -------------------- Enquiry Serializer --------------------
 class EnquirySerializer(serializers.ModelSerializer):
     class Meta:
-        model = Enquiry
-        fields = [
-            'id', 'user', 'name', 'email', 'phone', 'current_location',
-            'module', 'timing', 'trainingTime', 'startTime', 'profession',
-            'qualification', 'experience', 'referral', 'consent',
-            'calling1', 'calling2', 'calling3', 'calling4', 'calling5',
-            'previous_interaction', 'status', 'batch_code', 'batch_subject',
-            'demo_class_status', 'payment_status', 'move_to_demo', 'admin_notes',
-            'placement_status', 'placement_notes', 'interview_status', 'interview_notes',
-            'created_at', 'updated_at'
-        ]
+        model = Enquiry  # or whatever your model is called
+        fields = '__all__'  # or explicitly list them
+        # fields = [
+        #     'id', 'user', 'name', 'email', 'phone', 'current_location',
+        #     'module', 'timing', 'trainingTime', 'startTime', 'profession',
+        #     'qualification', 'experience', 'referral', 'consent',
+        #     'calling1', 'calling2', 'calling3', 'calling4', 'calling5',
+        #     'previous_interaction', 'status', 'batch_code', 'batch_subject',
+        #     'demo_class_status', 'payment_status', 'move_to_demo', 'admin_notes',
+        #     'placement_status', 'placement_notes', 'interview_status', 'interview_notes',
+        #     'created_at', 'updated_at'
+        # ]
         read_only_fields = ['user', 'created_at', 'updated_at']
 
 
