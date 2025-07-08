@@ -24,6 +24,8 @@ from .serializers import (
 )
 from users.permissions import RoleBasedPermission
 
+from rest_framework.decorators import api_view
+
 # -------------------- Auth & User Management --------------------
 
 class SampleView(APIView):

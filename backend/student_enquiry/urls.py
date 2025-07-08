@@ -37,7 +37,6 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include("users.urls")),
-
     path('token/', views.CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
     # Note: TokenRefresh and TokenVerify views don't exist in current views.py
     # Using Django REST framework's built-in views instead
