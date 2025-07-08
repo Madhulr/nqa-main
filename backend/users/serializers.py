@@ -83,13 +83,16 @@ class MinimalEnquirySerializer(serializers.ModelSerializer):
     trainingMode = serializers.CharField(source='timing')
     trainingTimings = serializers.CharField(source='trainingTime')
     previousInteraction = serializers.CharField(source='previous_interaction')
+    batch_code = serializers.CharField()
+    batch_subject = serializers.CharField()
 
     class Meta:
         model = Enquiry
         fields = [
             'id', 'fullName', 'phone', 'email', 'location', 'module',
             'trainingMode', 'trainingTimings', 'startTime',
-            'calling1', 'calling2', 'calling3', 'calling4', 'calling5', 'previousInteraction'
+            'calling1', 'calling2', 'calling3', 'calling4', 'calling5', 'previousInteraction',
+            'batch_code', 'batch_subject'
         ]
 
 
