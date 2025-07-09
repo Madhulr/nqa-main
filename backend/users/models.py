@@ -239,11 +239,28 @@ class Enquiry(models.Model):
     batch_code = models.CharField(max_length=50, blank=True, null=True)
     batch_subject = models.CharField(max_length=100, blank=True, null=True)
     demo_class_status = models.CharField(max_length=50, blank=True, null=True)
-    payment_status = models.BooleanField(default=False)
     move_to_demo = models.BooleanField(default=False)
     admin_notes = models.TextField(blank=True, null=True)
     move_to_acc = models.BooleanField(default=False)
     
+    #demolist1
+    move_to_class = models.BooleanField(default=False)
+    packageCost = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    amountPaid = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    discount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    balanceAmount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    #classList
+    pay_calling1 = models.TextField(blank=True, null=True)
+    pay_calling2 = models.TextField(blank=True, null=True)
+    pay_calling3 = models.TextField(blank=True, null=True)
+    pay_calling4 = models.TextField(blank=True, null=True)
+    pay_calling5 = models.TextField(blank=True, null=True)
+    payment_status = models.BooleanField(default=False)
+    move_to_hr = models.BooleanField(default=False)
+
+    #class_list1
+
+
 
     # HR/Placement/Interview
     placement_status = models.CharField(max_length=50, blank=True, null=True)

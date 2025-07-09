@@ -63,19 +63,20 @@ class DemoListSerializer(serializers.ModelSerializer):
 # -------------------- Enquiry Serializer --------------------
 class EnquirySerializer(serializers.ModelSerializer):
     class Meta:
-        model = Enquiry  # or whatever your model is called
-        fields = '__all__'  # or explicitly list them
-        # fields = [
-        #     'id', 'user', 'name', 'email', 'phone', 'current_location',
-        #     'module', 'timing', 'trainingTime', 'startTime', 'profession',
-        #     'qualification', 'experience', 'referral', 'consent',
-        #     'calling1', 'calling2', 'calling3', 'calling4', 'calling5',
-        #     'previous_interaction', 'status', 'batch_code', 'batch_subject',
-        #     'demo_class_status', 'payment_status', 'move_to_demo', 'admin_notes',
-        #     'placement_status', 'placement_notes', 'interview_status', 'interview_notes',
-        #     'created_at', 'updated_at'
-        # ]
+        model = Enquiry
+        fields = '__all__'  # Or list them explicitly
         read_only_fields = ['user', 'created_at', 'updated_at']
+
+    def update(self, instance, validated_data):
+        # Use existing values if not provided in the update
+        packageCost = validated_data.get('packageCost', instance.packageCost or 0)
+        amountPaid = validated_data.get('amountPaid', instance.amountPaid or 0)
+        discount = validated_data.get('discount', instance.discount or 0)
+
+        # Calculate the new balanceAmount
+        validated_data['balanceAmount'] = packageCost - amountPaid - discount
+
+        return super().update(instance, validated_data)
 
 
 class MinimalEnquirySerializer(serializers.ModelSerializer):

@@ -5,7 +5,7 @@ from .views import (
     StudentEnquiryListCreate, StudentEnquiryDetailView,
     DemoListListCreate, DemoListDetailView,
     CourseListView, BatchTimingListView,
-    AdminOnlyView, CounsellorOnlyView, AccountsOnlyView, HROnlyView, SampleView
+    AdminOnlyView, CounsellorOnlyView, AccountsOnlyView, HROnlyView, SampleView , HRListAPIView
 )
 
 urlpatterns = [
@@ -25,4 +25,6 @@ urlpatterns = [
     path('counsellor-only/', CounsellorOnlyView.as_view(), name='counsellor-only'),
     path('accounts-only/', AccountsOnlyView.as_view(), name='accounts-only'),
     path('hr-only/', HROnlyView.as_view(), name='hr-only'),
+    path('api/hr-list/', HRListAPIView.as_view(), name='hr-list'),
+
 ]

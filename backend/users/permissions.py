@@ -1,28 +1,35 @@
-from rest_framework import permissions
-from .models import AccessControl
 from rest_framework.permissions import BasePermission
 
 class RoleBasedPermission(BasePermission):
     def has_permission(self, request, view):
-        # Check if user is authenticated
         if not request.user or not request.user.is_authenticated:
             return False
 
-        # Get user role
         user_role = getattr(request.user.accesscontrol, 'role', None)
 
-        # Allow admin and counsellor full access to Enquiry endpoints
-        if user_role in ['admin', 'counsellor']:
+        # Admin has full access
+        if user_role == 'admin':
             return True
 
-        # Get required_roles from the view
+        # POST allowed for counsellor
+        if request.method == 'POST':
+            return user_role in ['admin', 'counsellor']
+
+        # PATCH/PUT allowed for admin, accounts, counsellor
+        if request.method in ['PATCH', 'PUT']:
+            return user_role in ['admin', 'accounts', 'counsellor','hr']
+
+        # GET allowed for all four roles
+        if request.method == 'GET':
+            return user_role in ['admin', 'counsellor', 'accounts', 'hr']
+
+        # DELETE only admin
+        if request.method == 'DELETE':
+            return user_role == 'admin'
+
+        # Optional fallback
         required_roles = getattr(view, 'required_roles', [])
-        # Allow if user's role is in required_roles
         return user_role in required_roles
 
     def has_object_permission(self, request, view, obj):
-        user_role = getattr(request.user.accesscontrol, 'role', None)
-        if user_role in ['admin', 'counsellor']:
-            return True
-        required_roles = getattr(view, 'required_roles', [])
-        return user_role in required_roles
+        return self.has_permission(request, view)
