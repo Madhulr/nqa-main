@@ -258,15 +258,22 @@ class Enquiry(models.Model):
     payment_status = models.BooleanField(default=False)
     move_to_hr = models.BooleanField(default=False)
 
-    #class_list1
-
-
 
     # HR/Placement/Interview
+    #class_list1
+    follow_up_note = models.TextField(blank=True, null=True)
+    placement = models.CharField(max_length=20, blank=True, null=True)
+    data_link = models.URLField(max_length=500, blank=True, null=True)
+    data_updated = models.DateField(blank=True, null=True)
+    move_to_placements = models.BooleanField(default=False)
+    
+    #placements_list
     placement_status = models.CharField(max_length=50, blank=True, null=True)
     placement_notes = models.TextField(blank=True, null=True)
     interview_status = models.CharField(max_length=50, blank=True, null=True)
     interview_notes = models.TextField(blank=True, null=True)
+    
+    #interviewlist 
 
     # System
     created_at = models.DateTimeField(auto_now_add=True)
