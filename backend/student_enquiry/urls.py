@@ -23,7 +23,7 @@ from users import views
 
 schema_view = get_schema_view(
    openapi.Info(
-      title="Student Enquiry Management API", 
+      title="Student Management API", 
       default_version='v1',                    
       description="API documentation for managing student enquiries, courses, and batches with role-based access.",
       terms_of_service="https://yourdomain.com/terms/",  

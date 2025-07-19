@@ -5,10 +5,11 @@ from .views import (
     StudentEnquiryListCreate, StudentEnquiryDetailView,
     DemoListListCreate, DemoListDetailView,
     CourseListView, BatchTimingListView,
-    AdminOnlyView, CounsellorOnlyView, AccountsOnlyView, HROnlyView, SampleView , HRListAPIView
+    AdminOnlyView, CounsellorOnlyView, AccountsOnlyView, HROnlyView, SampleView , HRListAPIView, get_user_role
 )
 
 urlpatterns = [
+    path('get_user_role', get_user_role.as_view(), name='get_user_role'),
     path('', SampleView.as_view(), name='api-root'),  # root returns accessible message
     path('login/', LoginView.as_view(), name='login'),
     path('create_user/', CreateUserView.as_view(), name='create_user'),

@@ -33,6 +33,22 @@ class SampleView(APIView):
     @swagger_auto_schema(operation_description="GET a sample message")
     def get(self, request):
         return Response({"message": "Success"}, status=status.HTTP_200_OK)
+    
+class get_user_role(APIView):
+    @swagger_auto_schema(operation_description="Get the role of the authenticated user")
+    # permission_classes = [IsAuthenticated]  
+    def get(self, request):
+        
+        user = request.user
+        if not user.is_authenticated:
+            return Response({"error": "User not authenticated"}, status=status.HTTP_401_UNAUTHORIZED)
+        
+        role = self.get_user_role(user)
+        if role:
+            return Response({"role": role}, status=status.HTTP_200_OK)
+        else:
+            return Response({"error": "Role not found"}, status=status.HTTP_404_NOT_FOUND)  
+    
 
 
 class LoginView(APIView):

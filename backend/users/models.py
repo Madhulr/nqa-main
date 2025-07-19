@@ -216,17 +216,24 @@ class Enquiry(models.Model):
     email = models.EmailField()
     phone = models.CharField(max_length=20)
     current_location = models.CharField(max_length=100, blank=True, null=True)
-    module = models.CharField(max_length=100, blank=True, null=True)
-    timing = models.CharField(max_length=50, blank=True, null=True)
-    trainingTime = models.CharField(max_length=50, blank=True, null=True)
-    startTime = models.CharField(max_length=50, blank=True, null=True)
-    profession = models.CharField(max_length=100, blank=True, null=True)
-    qualification = models.CharField(max_length=100, blank=True, null=True)
-    experience = models.CharField(max_length=50, blank=True, null=True)
-    referral = models.CharField(max_length=100, blank=True, null=True)
-    consent = models.BooleanField(default=False)
+    # ⬇️ NEW address + personal
+    current_address   = models.TextField(blank=True, null=True)
+    permanent_address = models.TextField(blank=True, null=True)
+    father_name       = models.CharField(max_length=120, blank=True, null=True)
+    blood_group       = models.CharField(max_length=3,  blank=True, null=True)
 
-    # Enquiry Details
+    # ---------- Course / Enquiry Meta ----------
+    module        = models.CharField(max_length=100, blank=True, null=True)
+    timing        = models.CharField(max_length=50,  blank=True, null=True)
+    trainingTime  = models.CharField(max_length=50,  blank=True, null=True)
+    startTime     = models.CharField(max_length=50,  blank=True, null=True)
+    profession    = models.CharField(max_length=100, blank=True, null=True)
+    qualification = models.CharField(max_length=100, blank=True, null=True)
+    experience    = models.CharField(max_length=50,  blank=True, null=True)
+    referral      = models.CharField(max_length=100, blank=True, null=True)
+    consent       = models.BooleanField(default=False)
+
+    # ---------- Enquiry Details ----------
     calling1 = models.CharField(max_length=50, blank=True, null=True)
     calling2 = models.CharField(max_length=50, blank=True, null=True)
     calling3 = models.CharField(max_length=50, blank=True, null=True)
@@ -235,21 +242,20 @@ class Enquiry(models.Model):
     previous_interaction = models.CharField(max_length=255, blank=True, null=True)
     status = models.CharField(max_length=50, default='new')
 
-    # Demo/Batch/Accounts
+    # ---------- Demo / Accounts ----------
     batch_code = models.CharField(max_length=50, blank=True, null=True)
     batch_subject = models.CharField(max_length=100, blank=True, null=True)
     demo_class_status = models.CharField(max_length=50, blank=True, null=True)
     move_to_demo = models.BooleanField(default=False)
     admin_notes = models.TextField(blank=True, null=True)
     move_to_acc = models.BooleanField(default=False)
-    
-    #demolist1
-    move_to_class = models.BooleanField(default=False)
-    packageCost = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    amountPaid = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    discount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    balanceAmount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    #classList
+
+    move_to_class  = models.BooleanField(default=False)
+    packageCost    = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    amountPaid     = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    discount       = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    balanceAmount  = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+
     pay_calling1 = models.TextField(blank=True, null=True)
     pay_calling2 = models.TextField(blank=True, null=True)
     pay_calling3 = models.TextField(blank=True, null=True)
@@ -258,24 +264,51 @@ class Enquiry(models.Model):
     payment_status = models.BooleanField(default=False)
     move_to_hr = models.BooleanField(default=False)
 
-
-    # HR/Placement/Interview
-    #class_list1
+    # ---------- HR / Placement ----------
     follow_up_note = models.TextField(blank=True, null=True)
-    placement = models.CharField(max_length=20, blank=True, null=True)
-    data_link = models.URLField(max_length=500, blank=True, null=True)
-    data_updated = models.DateField(blank=True, null=True)
+    placement      = models.CharField(max_length=20, blank=True, null=True)
+    data_link      = models.URLField(max_length=500, blank=True, null=True)
+    data_updated   = models.DateField(blank=True, null=True)
     move_to_placements = models.BooleanField(default=False)
-    
-    #placements_list
-    placement_status = models.CharField(max_length=50, blank=True, null=True)
-    placement_notes = models.TextField(blank=True, null=True)
-    interview_status = models.CharField(max_length=50, blank=True, null=True)
-    interview_notes = models.TextField(blank=True, null=True)
-    
-    #interviewlist 
 
-    # System
+    placement_status = models.CharField(max_length=50, blank=True, null=True)
+    placement_notes  = models.TextField(blank=True, null=True)
+    interview_status = models.CharField(max_length=50, blank=True, null=True)
+    interview_notes  = models.TextField(blank=True, null=True)
+    # ----- 10th -----
+    s10_school   = models.CharField(max_length=120, blank=True, null=True)
+    s10_board    = models.CharField(max_length=50,  blank=True, null=True)
+    s10_year     = models.PositiveSmallIntegerField(blank=True, null=True)
+    s10_score    = models.CharField(max_length=10,  blank=True, null=True)
+
+# ----- 12th (optional) -----
+    s12_college  = models.CharField(max_length=120, blank=True, null=True)
+    s12_board    = models.CharField(max_length=50,  blank=True, null=True)
+    s12_year     = models.PositiveSmallIntegerField(blank=True, null=True)
+    s12_score    = models.CharField(max_length=10,  blank=True, null=True)
+
+# ----- Diploma (optional) -----
+    dip_college  = models.CharField(max_length=120, blank=True, null=True)
+    dip_board    = models.CharField(max_length=50,  blank=True, null=True)
+    dip_year     = models.PositiveSmallIntegerField(blank=True, null=True)
+    dip_score    = models.CharField(max_length=10,  blank=True, null=True)
+
+# ----- UG -----
+    ug_college   = models.CharField(max_length=120, blank=True, null=True)
+    ug_board     = models.CharField(max_length=50,  blank=True, null=True)
+    ug_year      = models.PositiveSmallIntegerField(blank=True, null=True)
+    ug_score     = models.CharField(max_length=10,  blank=True, null=True)
+
+# ----- PG (optional) -----
+    pg_college   = models.CharField(max_length=120, blank=True, null=True)
+    pg_board     = models.CharField(max_length=50,  blank=True, null=True)
+    pg_year      = models.PositiveSmallIntegerField(blank=True, null=True)
+    pg_score     = models.CharField(max_length=10,  blank=True, null=True)
+
+    # ⬇ NEW flag so the front‑end can paint the button green
+    details_done = models.BooleanField(default=False)
+
+    # ---------- System ----------
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)

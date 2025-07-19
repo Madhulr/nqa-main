@@ -61,22 +61,56 @@ class DemoListSerializer(serializers.ModelSerializer):
 
 
 # -------------------- Enquiry Serializer --------------------
+# -------------------- Enquiry Serializer --------------------
 class EnquirySerializer(serializers.ModelSerializer):
     class Meta:
         model = Enquiry
-        fields = '__all__'  # Or list them explicitly
+        fields = [
+            'id', 'name', 'phone', 'email',
+            'current_address', 'permanent_address',
+            'father_name', 'blood_group',
+
+            # 10th details
+            's10_school', 's10_board', 's10_year', 's10_score',
+
+            # 12th details
+            's12_college', 's12_board', 's12_year', 's12_score',
+
+            # Diploma details
+            'dip_college', 'dip_board', 'dip_year', 'dip_score',
+
+            # UG details
+            'ug_college', 'ug_board', 'ug_year', 'ug_score',
+
+            # PG details
+            'pg_college', 'pg_board', 'pg_year', 'pg_score',
+
+            # Placement fields
+            'placement', 'data_link', 'data_updated',
+
+            # Movement flags
+            'move_to_hr', 'move_to_placements',
+            'details_done',
+
+            # Financial fields
+            'packageCost', 'amountPaid', 'discount', 'balanceAmount',
+
+            # Batch info
+            'batch_code', 'batch_subject',
+
+            # Meta
+            'created_at', 'updated_at'
+        ]
         read_only_fields = ['user', 'created_at', 'updated_at']
 
     def update(self, instance, validated_data):
-        # Use existing values if not provided in the update
         packageCost = validated_data.get('packageCost', instance.packageCost or 0)
         amountPaid = validated_data.get('amountPaid', instance.amountPaid or 0)
         discount = validated_data.get('discount', instance.discount or 0)
 
-        # Calculate the new balanceAmount
         validated_data['balanceAmount'] = packageCost - amountPaid - discount
-
         return super().update(instance, validated_data)
+
 
 
 class MinimalEnquirySerializer(serializers.ModelSerializer):
@@ -96,35 +130,3 @@ class MinimalEnquirySerializer(serializers.ModelSerializer):
             'calling1', 'calling2', 'calling3', 'calling4', 'calling5', 'previousInteraction',
             'batch_code', 'batch_subject'
         ]
-
-
-# , 'address'
-
-# # yourapp/serializers.py
-# from rest_framework import serializers
-# from .models import Course, BatchTiming, Enquiry
-
-# class BatchTimingSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = BatchTiming
-#         fields = ['id', 'name', 'time_range']
-
-# class CourseSerializer(serializers.ModelSerializer):
-#     batch_timings = BatchTimingSerializer(many=True, read_only=True)
-#     class Meta:
-#         model = Course
-#         fields = ['id', 'name', 'description', 'batch_timings']
-
-# class EnquirySerializer(serializers.ModelSerializer):
-#     course = serializers.PrimaryKeyRelatedField(queryset=Course.objects.all())
-#     batch_timing = serializers.PrimaryKeyRelatedField(queryset=BatchTiming.objects.all())
-#     class Meta:
-#         model = Enquiry
-#         fields = [
-#             'id', 'user', 'name', 'email', 'phone', 'address', 'current_location',
-#             'course', 'training_mode', 'batch_timing', 'reason_for_slot',
-#             'employment_status', 'highest_qualification', 'experience_years',
-#             'source_of_info', 'consent_to_contact', 'message', 'status',
-#             'payment_status', 'follow_up_note', 'created_at'
-#         ]
-#         read_only_fields = ['user', 'status', 'payment_status', 'follow_up_note', 'created_at']
